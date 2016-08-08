@@ -1,0 +1,91 @@
+[Version]
+Signature="$Windows NT$"
+DriverPackageType=PlugAndPlay
+DriverPackageDisplayName=%DESC%
+Class=USBDevice
+ClassGUID={36fc9e60-c465-11cf-8056-444553540000}
+
+Provider="HackPascal"
+CatalogFile.NTx86=ch341x86.cat
+CatalogFile.NTAMD64=ch341amd64.cat
+DriverVer=07/14/2015, 6.1.7600.16385
+
+[ClassInstall32]
+Addreg = WinUSBDeviceClassReg
+
+[WinUSBDeviceClassReg]
+HKR,,,,%ClassName%
+HKR,,NoInstallClass,,1
+HKR,,IconPath,%REG_MULTI_SZ%,"%systemroot%\system32\setupapi.dll,-20"
+HKR,,LowerLogoVersion,,5.2
+
+[Manufacturer]
+%VendorName% = Device_WinUSB,NTx86,NTamd64
+
+[Device_WinUSB.NTx86]
+%USB\VID_1A86&PID_5512.DeviceDesc%=USB_Install,USB\VID_1A86&PID_5512
+
+[Device_WinUSB.NTamd64]
+%USB\VID_1A86&PID_5512.DeviceDesc%=USB_Install,USB\VID_1A86&PID_5512
+
+[USB_Install]
+Include = winusb.inf
+Needs   = WINUSB.NT
+
+[USB_Install.Services]
+Include    = winusb.inf
+AddService = WinUSB,0x00000002,WinUSB_ServiceInstall
+
+[WinUSB_ServiceInstall]
+DisplayName   = "WinUSB - Kernel Driver 07/14/2009 6.1.7600.16385"
+ServiceType   = 1
+StartType     = 3
+ErrorControl  = 1
+ServiceBinary = %12%\WinUSB.sys
+
+[USB_Install.Wdf]
+KmdfService = WINUSB, WinUsb_Install
+
+[WinUSB_Install]
+KmdfLibraryVersion = 1.9
+
+[USB_Install.HW]
+AddReg = Dev_AddReg
+
+[Dev_AddReg]
+HKR,,DeviceInterfaceGUIDs,0x10000,%DeviceGUID%
+
+[USB_Install.CoInstallers]
+AddReg    = CoInstallers_AddReg
+CopyFiles = CoInstallers_CopyFiles
+
+[CoInstallers_AddReg]
+HKR,,CoInstallers32,0x00010000,"WdfCoInstaller01009.dll,WdfCoInstaller","WinUSBCoInstaller2.dll"
+
+[CoInstallers_CopyFiles]
+WinUSBCoInstaller2.dll
+WdfCoInstaller01009.dll
+
+[DestinationDirs]
+CoInstallers_CopyFiles = 11
+
+[SourceDisksNames]
+1 = %SourceName%
+
+[SourceDisksFiles.x86]
+WinUSBCoInstaller2.dll  = 1,x86
+WdfCoInstaller01009.dll = 1,x86
+
+[SourceDisksFiles.amd64]
+WinUSBCoInstaller2.dll  = 1,amd64
+WdfCoInstaller01009.dll = 1,amd64
+
+[Strings]
+DESC="CH341A Programmer"
+DriversDisk="CH341A Programmer"
+DeviceGUID = "{17113607-3a1f-4bac-8f57-19f7e2f6c230}"
+
+USB\VID_1A86&PID_5512.DeviceDesc="CH341A Programmer"
+
+SvcDesc="CH341A Programmer"
+ClassName="USBDevice"
