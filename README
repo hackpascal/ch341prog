@@ -1,6 +1,11 @@
 
-Simple CH341 SPI Programmer
-简易 CH341 SPI 编程器
+Simple CH341 SPI Programmer, supports Windows and Linux
+简易 CH341 SPI 编程器，支持 Windows 和 Linux
+
+
+For MinGW/Linux:
+	make -C ch341prog
+
 
 LICENSE
 
